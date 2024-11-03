@@ -64,45 +64,46 @@ fn add_to_list(tasks: &mut Vec<Task>) {
 fn show_tasks(tasks: &Vec<Task>) {
     if tasks.is_empty() {
         println!("No tasks available");
-    } else {
-        for task in tasks {
-            println!("\n--------------------------------");
-            println!("Title: {}", task.title);
-            println!("Importance: {:?}", task.importance);
-            println!("Description: {}", task.description);
-            println!("--------------------------------\n");
-        }
+        return;
+    }
+
+    for task in tasks {
+        println!("\n--------------------------------");
+        println!("Title: {}", task.title);
+        println!("Importance: {:?}", task.importance);
+        println!("Description: {}", task.description);
+        println!("--------------------------------\n");
     }
 }
 
 fn delete_task(tasks: &mut Vec<Task>) {
     if tasks.is_empty() {
         println!("\nThere are no added tasks to your list!\n");
-    } else {
-        print!("\nEnter the index number of the task you want to remove: ");
-        io::stdout().flush().unwrap();
+        return;
+    }
+    print!("\nEnter the index number of the task you want to remove: ");
+    io::stdout().flush().unwrap();
 
-        let mut task_index = String::new();
-        io::stdin()
-            .read_line(&mut task_index)
-            .expect("Failed to read line");
+    let mut task_index = String::new();
+    io::stdin()
+        .read_line(&mut task_index)
+        .expect("Failed to read line");
 
-        // Parse the input to an integer
-        match task_index.trim().parse::<usize>() {
-            Ok(index) => {
-                if index < tasks.len() {
-                    tasks.remove(index);
-                    println!("Task at index {} has been removed.\n", index);
-                } else {
-                    println!(
-                        "Invalid index. Please enter a number between 0 and {}.\n",
-                        tasks.len() - 1
-                    );
-                }
+    // Parse the input to an integer
+    match task_index.trim().parse::<usize>() {
+        Ok(index) => {
+            if index < tasks.len() {
+                tasks.remove(index);
+                println!("Task at index {} has been removed.\n", index);
+            } else {
+                println!(
+                    "Invalid index. Please enter a number between 0 and {}.\n",
+                    tasks.len() - 1
+                );
             }
-            Err(_) => {
-                println!("Invalid input. Please enter a valid index number.\n");
-            }
+        }
+        Err(_) => {
+            println!("Invalid input. Please enter a valid index number.\n");
         }
     }
 }
@@ -110,78 +111,78 @@ fn delete_task(tasks: &mut Vec<Task>) {
 fn modify_task(tasks: &mut Vec<Task>) {
     if tasks.is_empty() {
         println!("\nThere are no added tasks to your list!\n");
-    } else {
-        print!("\nEnter the index of the task you want to modify: ");
-        io::stdout().flush().unwrap();
+        return;
+    }
+    print!("\nEnter the index of the task you want to modify: ");
+    io::stdout().flush().unwrap();
 
-        let mut task_index = String::new();
-        io::stdin()
-            .read_line(&mut task_index)
-            .expect("Failed to read line");
+    let mut task_index = String::new();
+    io::stdin()
+        .read_line(&mut task_index)
+        .expect("Failed to read line");
 
-        // Parse the input to an integer
-        match task_index.trim().parse::<usize>() {
-            Ok(index) => {
-                if index < tasks.len() {
-                    let task = &mut tasks[index];
+    // Parse the input to an integer
+    match task_index.trim().parse::<usize>() {
+        Ok(index) => {
+            if index < tasks.len() {
+                let task = &mut tasks[index];
 
-                    // Modify title
-                    print!(
-                        "Current title: {}\nEnter new title (or press Enter to keep the same): ",
-                        task.title
-                    );
-                    io::stdout().flush().unwrap();
-                    let mut new_title = String::new();
-                    io::stdin()
-                        .read_line(&mut new_title)
-                        .expect("Failed to read line");
-                    if !new_title.trim().is_empty() {
-                        task.title = new_title.trim().to_string(); // Keep the same title
-                    }
-
-                    // Modify importance
-                    println!("Current importance: {:?}", task.importance);
-                    let importance = loop {
-                        print!("Choose new importance (1=Low, 2=Medium, 3=High, or press Enter to keep the same): ");
-                        io::stdout().flush().unwrap();
-                        let mut importance_input = String::new();
-                        io::stdin()
-                            .read_line(&mut importance_input)
-                            .expect("Failed to read input");
-                        if importance_input.trim().is_empty() {
-                            break task.importance.clone(); // Keep the same importance
-                        }
-                        match importance_input.trim() {
-                            "1" => break Importance::Low,
-                            "2" => break Importance::Medium,
-                            "3" => break Importance::High,
-                            _ => println!("Invalid choice, please enter 1, 2, or 3!"),
-                        }
-                    };
-                    task.importance = importance;
-
-                    // Modify description
-                    print!("Current description: {}\nEnter new description (or press Enter to keep the same): ", task.description);
-                    io::stdout().flush().unwrap();
-                    let mut new_description = String::new();
-                    io::stdin()
-                        .read_line(&mut new_description)
-                        .expect("Failed to read line");
-                    if !new_description.trim().is_empty() {
-                        task.description = new_description.trim().to_string(); // Keep the same description
-                    }
-
-                    println!("\nTask has been modified successfully!\n");
-                } else {
-                    println!(
-                        "Invalid index. Please enter a number between 0 and {}.",
-                        tasks.len() - 1
-                    );
+                // Modify title
+                print!(
+                    "Current title: {}\nEnter new title (or press Enter to keep the same): ",
+                    task.title
+                );
+                io::stdout().flush().unwrap();
+                let mut new_title = String::new();
+                io::stdin()
+                    .read_line(&mut new_title)
+                    .expect("Failed to read line");
+                if !new_title.trim().is_empty() {
+                    task.title = new_title.trim().to_string(); // Keep the same title
                 }
+
+                // Modify importance
+                println!("Current importance: {:?}", task.importance);
+                let importance = loop {
+                    print!("Choose new importance (1=Low, 2=Medium, 3=High, or press Enter to keep the same): ");
+                    io::stdout().flush().unwrap();
+                    let mut importance_input = String::new();
+                    io::stdin()
+                        .read_line(&mut importance_input)
+                        .expect("Failed to read input");
+                    if importance_input.trim().is_empty() {
+                        break task.importance.clone(); // Keep the same importance
+                    }
+                    match importance_input.trim() {
+                        "1" => break Importance::Low,
+                        "2" => break Importance::Medium,
+                        "3" => break Importance::High,
+                        _ => println!("Invalid choice, please enter 1, 2, or 3!"),
+                    }
+                };
+                task.importance = importance;
+
+                // Modify description
+                print!("Current description: {}\nEnter new description (or press Enter to keep the same): ", task.description);
+                io::stdout().flush().unwrap();
+                let mut new_description = String::new();
+                io::stdin()
+                    .read_line(&mut new_description)
+                    .expect("Failed to read line");
+                if !new_description.trim().is_empty() {
+                    task.description = new_description.trim().to_string(); // Keep the same description
+                }
+
+                println!("\nTask has been modified successfully!\n");
+            } else {
+                println!(
+                    "Invalid index. Please enter a number between 0 and {}.",
+                    tasks.len() - 1
+                );
             }
-            Err(_) => {
-                println!("Invalid input. Please enter a valid index number.");
-            }
+        }
+        Err(_) => {
+            println!("Invalid input. Please enter a valid index number.");
         }
     }
 }
