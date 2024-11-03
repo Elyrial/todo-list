@@ -108,7 +108,7 @@ fn delete_task(tasks: &mut Vec<Task>) {
     }
 }
 
-fn modify_task(tasks: &mut Vec<Task>) {
+fn modify_task(tasks: &mut [Task]) {
     if tasks.is_empty() {
         println!("\nThere are no added tasks to your list!\n");
         return;
